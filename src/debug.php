@@ -106,7 +106,7 @@ final class Debug
 
         // 显示输出模块
         {
-            $persist=$debug['presist'];
+            $persist=$debug['persist'];
             $msgs=$debug['msgs'];
             $usage=kmgt(memory_get_peak_usage());
 
