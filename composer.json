@@ -1,0 +1,39 @@
+{
+  "name": "ice-php/debug",
+  "description": "icePHP 调试功能",
+  "keywords": [
+    "icePHP",
+    "config"
+  ],
+  "homepage": "https://github.com/ice-php/debug",
+  "type": "composer",
+  "license": "MIT",
+  "support": {
+    "source": "https://github.com/ice-php/debug"
+  },
+  "authors": [
+    {
+      "name": "blueice",
+      "email": "liyong@nenu.edu.cn"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0",
+    "ice-php/config":"0.0.2"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "icePHP\\": "src"
+    }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.org"
+    }
+  },
+  "config": {
+    "process-timeout": 1800
+  }
+}
