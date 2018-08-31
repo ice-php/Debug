@@ -1,12 +1,6 @@
 <?php
 declare(strict_types=1);
-
-use function icePHP\{
-    isCliMode, dump, isAjax,kmgt
-};
-use icePHP\{
-    Config
-};
+namespace icePHP;
 
 /**
  * 调试类,用于控制调试信息的显示,通常不被直接使用
