@@ -130,7 +130,7 @@ final class Debug
      * 添加一条调试信息
      * @param array|string $msg 调试信息
      * @param string $type 调试信息类别:file,sql,net,other
-     * @throws Exception
+     * @throws \Exception
      */
     static public function set($msg, string $type = 'other'): void
     {
