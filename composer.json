@@ -19,7 +19,7 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "ice-php/config":"*"
+    "ice-php/config": "dev-master"
   },
   "minimum-stability": "dev",
   "autoload": {
