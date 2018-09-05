@@ -130,7 +130,6 @@ final class Debug
      * 添加一条调试信息
      * @param array|string $msg 调试信息
      * @param string $type 调试信息类别:file,sql,net,other
-     * @throws \Exception
      */
     static public function set($msg, string $type = 'other'): void
     {
@@ -148,7 +147,6 @@ final class Debug
      * @param  $time  float 花费的时间
      * @param $params array|string|null
      * @param $sql string
-     * @throws
      */
     static public function setSql(string $method, string $prepare, float $time, $params = null, string $sql = ''): void
     {
@@ -206,7 +204,6 @@ final class Debug
      * 或者配置文件中指定了调试状态,或者当前请求中指定了调试状态,或者长效指定了调试状态
      * @param string $name
      * @return boolean
-     * @throws
      */
     static public function isDebug(string $name = ''): bool
     {
@@ -253,7 +250,6 @@ final class Debug
      * SFrame中有同名方法,为减少依赖,此处重复实现
      * @param $begin float 开始时间
      * @return float 开始时间(如果未指明开始时间)/时间间隔(如果指明时间间隔)
-     * @throws
      */
     static private function timeLog(float $begin = null): float
     {
