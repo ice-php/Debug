@@ -240,7 +240,7 @@ final class Debug
         }
 
         // 如果COOKIE调试指定了长效调试状态
-        $key = Config::get('system', 'cookieDebug');
+        $key = config('system', 'cookieDebug');
         if (isset($_COOKIE[$key]) and (!$name or $_COOKIE[$key] == $name)) {
             return true;
         }
