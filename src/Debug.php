@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace icePHP;
 
 /**
@@ -106,11 +107,11 @@ final class Debug
 
         // 显示输出模块
         {
-            $persist=$debug['persist'];
-            $msgs=$debug['msgs'];
-            $usage=kmgt(memory_get_peak_usage());
+            $persist = $debug['persist'];
+            $msgs = $debug['msgs'];
+            $usage = kmgt(memory_get_peak_usage());
 
-            require __DIR__.'/template.php';
+            require __DIR__ . '/template.php';
         }
 
         return '';
@@ -263,7 +264,7 @@ final class Debug
     }
 
     //清除调试信息
-    public static function clearMsgs():void
+    public static function clearMsgs(): void
     {
         self::$msgs = [];
     }
