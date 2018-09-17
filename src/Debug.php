@@ -188,7 +188,6 @@ final class Debug
      * @param $data mixed 请求参数
      * @param $return string 返回信息
      * @param $time float 用时(秒)
-     * @throws
      */
     static public function setNet(string $url, $data, string $return, float $time): void
     {
@@ -238,7 +237,7 @@ final class Debug
         }
 
         // 如果COOKIE调试指定了长效调试状态
-        $key = config('system', 'cookieDebug');
+        $key = configDefault(false,'system', 'cookieDebug');
         if (isset($_COOKIE[$key]) and (!$name or $_COOKIE[$key] == $name)) {
             return true;
         }
