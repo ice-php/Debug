@@ -30,23 +30,11 @@
                     -->
                     <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">会话信息 : SESSION_ID = <?=session_id()?></li>    </ol>
             </div>
-            <!--
             <div style="display:none;">
                 <ol style="padding: 0; margin:0">
-                    <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px">/data/xxx/xxx/xxx.php ( 1.12 KB )</li>
-                </ol>
-            </div>
-            <div style="display:none;">
-                <ol style="padding: 0; margin:0">
-                    <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px"></li>
-                </ol>
-            </div>
-            -->
-            <div style="display:none;">
-                <ol style="padding: 0; margin:0">
-                    <? foreach($msgs as $k=>$msg):?>
-                    <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px"><?=$msg?></li>
-                    <? endforeach ?>
+                    <?php foreach($msgs as $k=>$msg): ?>
+                    <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px"><?php echo json_encode($msg) ?></li>
+                    <?php endforeach ?>
                 </ol>
             </div>
             <div style="display:none;">
