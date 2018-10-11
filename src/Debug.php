@@ -69,6 +69,8 @@ final class Debug
                 self::$msgs[$key] = 'SQL ' . $msg['method'] . ' in ' . $msg['time'] . 's at ' . $msg['trace'] . ' ' . $msg['sql'];
             } elseif ($type == 'net') {
                 self::$msgs[$key] = 'Net Consume ' . $msg['time'] . 's to url ' . $msg['url'] . ' return ' . $msg['return'];
+            } elseif (!is_string($msg)) {
+                self::$msgs[$key] = json_encode($msg, JSON_UNESCAPED_UNICODE);
             }
         }
 
@@ -237,7 +239,7 @@ final class Debug
         }
 
         // 如果COOKIE调试指定了长效调试状态
-        $key = configDefault(false,'system', 'cookieDebug');
+        $key = configDefault(false, 'system', 'cookieDebug');
         if (isset($_COOKIE[$key]) and (!$name or $_COOKIE[$key] == $name)) {
             return true;
         }
