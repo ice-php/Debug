@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace icePHP;
 
 /**
- * 调试类,用于控制调试信息的显示,通常不被直接使用
+ * 调试类,用于控制调试信息的显示,通常不被直接使用1
  * 需要使用调试功能,请调用 debug方法
  */
 final class Debug
