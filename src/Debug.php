@@ -163,7 +163,7 @@ final class Debug
                 $line['class'] = '';
             }
             //找到最后一次调用,且不是 框架调用的
-            if (substr($line['class'], 0, 1) != 'S') break;
+            if (substr($line['class'], 0, 1) != 'S' and substr($line['class'], 0, 7) != 'icePHP\\') break;
             $lastLine = $line['line'];
         }
         $from = $line;
@@ -177,7 +177,7 @@ final class Debug
         self::set([
             'method' => $method,
             'sql' => $sql,
-            'time' => round($time,2),
+            'time' => round($time, 2),
             'prepare' => $prepare,
             'params' => $params,
             'trace' => $info
