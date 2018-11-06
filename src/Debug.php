@@ -66,7 +66,7 @@ final class Debug
             $counts[$type]++;
 
             if ($type == 'sql') {
-                self::$msgs[$key] = 'SQL ' . $msg['method'] . ' in ' . $msg['time'] . 's at ' . $msg['trace'] . ' ' . $msg['sql'];
+                self::$msgs[$key] = 'SQL ' . $msg['method'] . ' in ' . $msg['time'] . 'ms at ' . $msg['trace'] . ' ' . $msg['sql'];
             } elseif ($type == 'net') {
                 self::$msgs[$key] = 'Net Consume ' . $msg['time'] . 's to url ' . $msg['url'] . ' return ' . $msg['return'];
             } elseif (!is_string($msg)) {
@@ -147,7 +147,7 @@ final class Debug
      *
      * @param string $method 执行方式:Query/Execute/QueryHandle/
      * @param string $prepare
-     * @param  $time  float 花费的时间
+     * @param  $time  float 花费的时间(毫秒)
      * @param $params array|string|null
      * @param $sql string
      */
@@ -177,7 +177,7 @@ final class Debug
         self::set([
             'method' => $method,
             'sql' => $sql,
-            'time' => $time,
+            'time' => round($time,2),
             'prepare' => $prepare,
             'params' => $params,
             'trace' => $info
