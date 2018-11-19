@@ -93,7 +93,7 @@ final class Debug
             'sqls' => $sqls,
             'nets' => $nets,
             'caches' => $caches,
-            'others'=>$others
+            'others' => $others
         ];
 
         // Ajax模式
@@ -211,7 +211,7 @@ final class Debug
             'type' => $type,
             'method' => $method,
             'key' => $key,
-            'value' => $value,
+            'value' => mb_strlen($value) > 100 ? (mb_substr($value, 0, 100) . '...[' . mb_strlen($value) . ']') : $value,
             'info' => $info
         ], 'cache');
     }
