@@ -7,7 +7,9 @@
             <span style="color: rgb(153, 153, 153); padding-right: 12px; height: 30px; line-height: 30px; display: inline-block; margin-right: 3px; cursor: pointer; font-weight: 700;">流程</span>
             -->
             <span style="color: rgb(153, 153, 153); padding-right: 12px; height: 30px; line-height: 30px; display: inline-block; margin-right: 3px; cursor: pointer; font-weight: 700;">SQL</span>
-            <span style="color: rgb(153, 153, 153); padding-right: 12px; height: 30px; line-height: 30px; display: inline-block; margin-right: 3px; cursor: pointer; font-weight: 700;">错误</span>
+            <span style="color: rgb(153, 153, 153); padding-right: 12px; height: 30px; line-height: 30px; display: inline-block; margin-right: 3px; cursor: pointer; font-weight: 700;">缓存</span>
+            <span style="color: rgb(153, 153, 153); padding-right: 12px; height: 30px; line-height: 30px; display: inline-block; margin-right: 3px; cursor: pointer; font-weight: 700;">网络</span>
+            <span style="color: rgb(153, 153, 153); padding-right: 12px; height: 30px; line-height: 30px; display: inline-block; margin-right: 3px; cursor: pointer; font-weight: 700;">其它</span>
             <span style="color: rgb(153, 153, 153); padding-right: 12px; height: 30px; line-height: 30px; display: inline-block; margin-right: 3px; cursor: pointer; font-weight: 700;">研发团队</span>
             <span style="color: rgb(153, 153, 153); padding-right: 12px; height: 30px; line-height: 30px; display: inline-block; margin-right: 3px; cursor: pointer; font-weight: 700;"><a href="/?m=system&c=index&a=view" target="_blank">系统功能</a></span>
             <!--
@@ -32,13 +34,30 @@
             </div>
             <div style="display:none;">
                 <ol style="padding: 0; margin:0">
-                    <?php foreach($msgs as $k=>$msg): ?>
+                    <?php foreach($sqls as $k=>$msg): ?>
                     <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px"><?php echo json_encode($msg,JSON_UNESCAPED_UNICODE) ?></li>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+            <div style="display: none">
+                <ol style="padding: 0; margin:0">
+                    <?php foreach($caches as $k=>$msg): ?>
+                        <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px"><?php echo json_encode($msg,JSON_UNESCAPED_UNICODE) ?></li>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+            <div style="display: none">
+                <ol style="padding: 0; margin:0">
+                    <?php foreach($nets as $k=>$msg): ?>
+                        <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px"><?php echo json_encode($msg,JSON_UNESCAPED_UNICODE) ?></li>
                     <?php endforeach ?>
                 </ol>
             </div>
             <div style="display:none;">
                 <ol style="padding: 0; margin:0">
+                    <?php foreach($others as $k=>$msg): ?>
+                        <li style="border-bottom:1px solid #EEE;font-size:14px;padding:0 12px"><?php echo json_encode($msg,JSON_UNESCAPED_UNICODE) ?></li>
+                    <?php endforeach ?>
                 </ol>
             </div>
 

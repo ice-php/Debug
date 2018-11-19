@@ -54,7 +54,8 @@ final class Debug
         }
 
         //分别统计三种操作的总耗时
-        $counts = $sums = ['sql' => 0, 'net' => 0, 'debug' => 0];
+        $counts = $sums = ['sql' => 0, 'net' => 0, 'debug' => 0, 'cache' => 0];
+        $sqls = $nets = $caches = $others = [];
         foreach (self::$msgs as $key => $msg) {
             if (!is_array($msg)) {
                 continue;
@@ -66,30 +67,33 @@ final class Debug
             $counts[$type]++;
 
             if ($type == 'sql') {
-                self::$msgs[$key] = 'SQL ' . $msg['method'] . ' in ' . $msg['time'] . 'ms at ' . $msg['trace'] . ' ' . $msg['sql'];
+                $sqls[] = 'SQL ' . $msg['method'] . ' in ' . $msg['time'] . 'ms at ' . $msg['trace'] . ' ' . $msg['sql'];
+            } elseif ($type == 'cache') {
+                $caches[] = $msg['type'] . '缓存 at' . $msg['info'] . ' KEY:' . $msg['key'] . ' => ' . $msg['value'];
             } elseif ($type == 'net') {
-                self::$msgs[$key] = 'Net Consume ' . $msg['time'] . 's to url ' . $msg['url'] . ' return ' . $msg['return'];
+                $nets[] = 'Net Consume ' . $msg['time'] . 's to url ' . $msg['url'] . ' return ' . $msg['return'];
             } elseif (!is_string($msg)) {
-                self::$msgs[$key] = json_encode($msg, JSON_UNESCAPED_UNICODE);
+                $others[] = json_encode($msg, JSON_UNESCAPED_UNICODE);
             }
         }
 
-        self::$msgs = array_values(self::$msgs);
-
         // 如果有数据库访问调试信息并且要求记录
         if (self::isDebug('sql') and $counts['sql']) {
-            self::$msgs[] = 'SQL All ' . $counts['sql'] . ' Access Consume ' . round($sums['sql'], 3) . 's';
+            $sqls[] = 'SQL All ' . $counts['sql'] . ' Access Consume ' . round($sums['sql'], 3) . 's';
         }
 
         //如果有网络调试信息,并要求记录
         if (self::isDebug('net') and $counts['net']) {
-            self::$msgs[] = 'Net All ' . $counts['net'] . ' Access Consume ' . round($sums['net'], 3) . 's';
+            $nets = 'Net All ' . $counts['net'] . ' Access Consume ' . round($sums['net'], 3) . 's';
         }
 
         // 否则是按模板输出
         $debug = [
             'persist' => self::getPersist(),
-            'msgs' => self::$msgs
+            'sqls' => $sqls,
+            'nets' => $nets,
+            'caches' => $caches,
+            'others'=>$others
         ];
 
         // Ajax模式
@@ -110,7 +114,6 @@ final class Debug
         // 显示输出模块
         {
             $persist = $debug['persist'];
-            $msgs = $debug['msgs'];
             $usage = kmgt(memory_get_peak_usage());
 
             require __DIR__ . '/template.php';
@@ -143,15 +146,10 @@ final class Debug
     }
 
     /**
-     * 记录一次数据库访问的调试信息
-     *
-     * @param string $method 执行方式:Query/Execute/QueryHandle/
-     * @param string $prepare
-     * @param  $time  float 花费的时间(毫秒)
-     * @param $params array|string|null
-     * @param $sql string
+     * 获取调用规模中的开发 代码信息
+     * @return array [类名,调用点信息]
      */
-    static public function setSql(string $method, string $prepare, float $time, $params = null, string $sql = ''): void
+    static private function info()
     {
         //检查调用堆栈
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -162,16 +160,31 @@ final class Debug
             if (!isset($line['class'])) {
                 $line['class'] = '';
             }
-            //找到最后一次调用,且不是 框架调用的
+//找到最后一次调用,且不是 框架调用的
             if (substr($line['class'], 0, 6) != 'SFrame' and substr($line['class'], 0, 7) != 'icePHP\\') break;
             $lastLine = $line['line'];
         }
         $from = $line;
 
         $info = $from['class'] . (isset($from['type']) ? $from['type'] : '') . $from['function'] . '::' . $lastLine;
+        return [$from['class'], $info];
+    }
+
+    /**
+     * 记录一次数据库访问的调试信息
+     *
+     * @param string $method 执行方式:Query/Execute/QueryHandle/
+     * @param string $prepare
+     * @param  $time  float 花费的时间(毫秒)
+     * @param $params array|string|null
+     * @param $sql string
+     */
+    static public function setSql(string $method, string $prepare, float $time, $params = null, string $sql = ''): void
+    {
+        [$class, $info] = self::info();
 
         //不记录MLog里的SQL,这里都是日志
-        if ($from['class'] == 'SLogTable' and $method != 'Connect') {
+        if ($class == 'SLogTable' and $method != 'Connect') {
             return;
         }
         self::set([
@@ -182,6 +195,25 @@ final class Debug
             'params' => $params,
             'trace' => $info
         ], 'sql');
+    }
+
+    /**
+     * 记录缓存相关的调试信息
+     * @param string $type 缓存类型:mem/redis/file/...
+     * @param string $method get/set/clear/...
+     * @param string $key 键
+     * @param string $value 值
+     */
+    static public function setCache(string $type, string $method, string $key, $value = ''): void
+    {
+        [, $info] = self::info();
+        self::set([
+            'type' => $type,
+            'method' => $method,
+            'key' => $key,
+            'value' => $value,
+            'info' => $info
+        ], 'cache');
     }
 
     /**
