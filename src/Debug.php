@@ -69,7 +69,7 @@ final class Debug
             if ($type == 'sql') {
                 $sqls[] = 'SQL ' . $msg['method'] . ' in ' . $msg['time'] . 'ms at ' . $msg['trace'] . ' ' . $msg['sql'];
             } elseif ($type == 'cache') {
-                $caches[] = $msg['type'] . '缓存 at' . $msg['info'] . ' KEY:' . $msg['key'] . ' => ' . $msg['value'];
+                $caches[] = $msg['type'] . '缓存'.$msg['method'].' at ' . $msg['info'] . ' KEY:' . $msg['key'] . ' => ' . $msg['value'];
             } elseif ($type == 'net') {
                 $nets[] = 'Net Consume ' . $msg['time'] . 's to url ' . $msg['url'] . ' return ' . $msg['return'];
             } elseif (!is_string($msg)) {
