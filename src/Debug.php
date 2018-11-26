@@ -55,7 +55,12 @@ final class Debug
 
         //分别统计三种操作的总耗时
         $counts = $sums = ['sql' => 0, 'net' => 0, 'debug' => 0, 'cache' => 0];
-        $sqls = $nets = $caches = $others = [];
+        $nets = $others = [];
+
+        $sqls = [['方法', '用时', '堆栈', 'SQL语句']];
+        $caches = [['类型', '操作', '堆栈', '键', '值']];
+        $nets = [['用时', '地址', '数据']];
+
         foreach (self::$msgs as $key => $msg) {
             if (!is_array($msg)) {
                 continue;
@@ -67,24 +72,24 @@ final class Debug
             $counts[$type]++;
 
             if ($type == 'sql') {
-                $sqls[] = 'SQL ' . $msg['method'] . ' in ' . $msg['time'] . 'ms at ' . $msg['trace'] . ' ' . $msg['sql'];
+                $sqls[] = [$msg['method'], $msg['time'] . ' ms', $msg['trace'], $msg['sql']];
             } elseif ($type == 'cache') {
-                $caches[] = $msg['server'] . '缓存'.$msg['method'].' at ' . $msg['info'] . ' KEY:' . $msg['key'] . ' => ' . $msg['value'];
+                $caches[] = [$msg['server'], $msg['method'], $msg['info'], $msg['key'], $msg['value']];
             } elseif ($type == 'net') {
-                $nets[] = 'Net Consume ' . $msg['time'] . 's to url ' . $msg['url'] . ' return ' . $msg['return'];
+                $nets[] = [$msg['time'] . ' ms', $msg['url'], $msg['return']];
             } elseif (!is_string($msg)) {
-                $others[] = json_encode($msg, JSON_UNESCAPED_UNICODE);
+                $others[] = json($msg);
             }
         }
 
         // 如果有数据库访问调试信息并且要求记录
         if (self::isDebug('sql') and $counts['sql']) {
-            $sqls[] = 'SQL All ' . $counts['sql'] . ' Access Consume ' . round($sums['sql'], 3) . 's';
+            $sqls[] = ['全部 ' . $counts['sql'], round($sums['sql'], 3) . ' ms', '', ''];
         }
 
         //如果有网络调试信息,并要求记录
         if (self::isDebug('net') and $counts['net']) {
-            $nets = 'Net All ' . $counts['net'] . ' Access Consume ' . round($sums['net'], 3) . 's';
+            $nets[] = ['全部 ' . $counts['net'], round($sums['net'], 3) . ' ms', ''];
         }
 
         // 否则是按模板输出
@@ -160,7 +165,8 @@ final class Debug
             if (!isset($line['class'])) {
                 $line['class'] = '';
             }
-//找到最后一次调用,且不是 框架调用的
+
+            //找到最后一次调用,且不是 框架调用的
             if (substr($line['class'], 0, 6) != 'SFrame' and substr($line['class'], 0, 7) != 'icePHP\\') break;
             $lastLine = $line['line'];
         }
