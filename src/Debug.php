@@ -95,9 +95,7 @@ final class Debug
         // 否则是按模板输出
         $debug = [
             'persist' => self::getPersist(),
-            'sqls' => $sqls,
-            'nets' => $nets,
-            'caches' => $caches,
+            'msgs'=>[$sqls,$caches,$nets],
             'others' => $others
         ];
 

@@ -16,39 +16,19 @@
                     <li>内存开销 : <?=$usage?></li>
                     <li>会话信息 : SESSION_ID = <?=session_id()?></li>    </ol>
             </div>
-            <div style="display:none;">
-                <table class="table_debug">
-                    {foreach($sqls as $msg)}
-                        <tr>
-                            {foreach($msg as $item)}
-                                <td>{$item}</td>
-                            {endforeach}
-                        </tr>
-                    {endforeach}
-                </table>
-            </div>
-            <div style="display: none">
-                <table class="table_debug">
-                    {foreach($caches as $msg)}
-                    <tr>
-                        {foreach($msg as $item)}
-                        <td>{$item}</td>
-                        {endforeach}
-                    </tr>
-                    {endforeach}
-                </table>
-            </div>
-            <div style="display: none">
-                <table class="table_debug">
-                    {foreach($nets as $msg)}
-                    <tr>
-                        {foreach($msg as $item)}
-                        <td>{$item}</td>
-                        {endforeach}
-                    </tr>
-                    {endforeach}
-                </table>
-            </div>
+            <?php foreach($msgs as $one):?>
+                <div style="display:none;">
+                    <table class="table_debug">
+                        <?php foreach($one as $msg):?>
+                            <tr>
+                                <?php foreach($msg as $item):?>
+                                    <td><?=$item?></td>
+                                <?php endforeach?>
+                            </tr>
+                        <?php endforeach?>
+                    </table>
+                </div>
+            <?php endforeach;?>
 
 
             <div style="display:none;">
