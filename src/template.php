@@ -1,3 +1,6 @@
+<?php
+    var_dump($msgs);
+?>
 <div id="ice_page_trace">
     <div id="ice_page_trace_tab">
         <div id="ice_page_trace_tab_tit">
@@ -13,15 +16,14 @@
             <div style="display: block;">
                 <ol>
                     <li>运行时间 : <?=$persist?>s.</li>
-                    <li>内存开销 : <?=$usage?></li>
                     <li>会话信息 : SESSION_ID = <?=session_id()?></li>    </ol>
             </div>
-            <?php foreach($msgs as $one):?>
+            <?php foreach($msgs as $info):?>
                 <div style="display:none;">
                     <table class="table_debug">
-                        <?php foreach($one as $msg):?>
+                        <?php foreach($info as $row):?>
                             <tr>
-                                <?php foreach($msg as $item):?>
+                                <?php foreach($row as $item):?>
                                     <td><?=$item?></td>
                                 <?php endforeach?>
                             </tr>
