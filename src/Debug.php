@@ -107,8 +107,14 @@ final class Debug
 
         // 如果是命令行模式,直接输出显示
         if (isCliMode()) {
-            foreach ($debug['msgs'] as $msg) {
-                echo $msg . "\r\n";
+            foreach ($debug['msgs'] as $info) {
+                echo "\r\n";
+                foreach($info as $row){
+                    echo "\r\n";
+                    foreach($row as $item){
+                        echo $item."\t\t";
+                    }
+                }
             }
             echo 'Persist:' . $debug['persist'] . "\r\n\r\n";
             return dump($debug, 'DEBUG', true);
@@ -118,7 +124,7 @@ final class Debug
         {
             $persist = $debug['persist'];
             $usage = kmgt(memory_get_peak_usage());
-
+            $msgs=$debug['msgs'];
             require __DIR__ . '/template.php';
         }
 
