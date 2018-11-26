@@ -55,7 +55,7 @@ final class Debug
 
         //分别统计三种操作的总耗时
         $counts = $sums = ['sql' => 0, 'net' => 0, 'debug' => 0, 'cache' => 0];
-        $nets = $others = [];
+        $others = [];
 
         $sqls = [['方法', '用时', '堆栈', 'SQL语句']];
         $caches = [['类型', '操作', '堆栈', '键', '值']];

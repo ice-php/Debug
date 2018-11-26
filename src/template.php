@@ -1,6 +1,3 @@
-<?php
-    var_dump($msgs);
-?>
 <div id="ice_page_trace">
     <div id="ice_page_trace_tab">
         <div id="ice_page_trace_tab_tit">
