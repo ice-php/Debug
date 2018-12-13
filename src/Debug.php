@@ -109,10 +109,10 @@ final class Debug
         if (isCliMode()) {
             foreach ($debug['msgs'] as $info) {
                 echo "\r\n";
-                foreach($info as $row){
+                foreach ($info as $row) {
                     echo "\r\n";
-                    foreach($row as $item){
-                        echo $item."\t\t";
+                    foreach ($row as $item) {
+                        echo $item . "\t\t";
                     }
                 }
             }
@@ -124,7 +124,7 @@ final class Debug
         {
             $persist = $debug['persist'];
             $usage = kmgt(memory_get_peak_usage());
-            $msgs=$debug['msgs'];
+            $msgs = $debug['msgs'];
             require __DIR__ . '/template.php';
         }
 
@@ -172,7 +172,7 @@ final class Debug
 
             //找到最后一次调用,且不是 框架调用的
             if (substr($line['class'], 0, 6) != 'SFrame' and substr($line['class'], 0, 7) != 'icePHP\\') break;
-            $lastLine = $line['line'];
+            $lastLine = $line['line'] ?? 0;
         }
         $from = $line;
 
